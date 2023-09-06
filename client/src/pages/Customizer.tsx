@@ -14,7 +14,7 @@ function Customizer () {
 
   const [file, setFile] = useState('')
   const [prompt, setPrompt] = useState('')
-  const [generaatingImg, setGeneraatingImg] = useState(false)
+  const [generatingImg, setGeneraatingImg] = useState(false)
   const [activeEditorTab, setActiveEditorTab] = useState('')
   const [activeFilterTab, setActiveFilterTab] = useState({
     logoShirt: true,
@@ -32,10 +32,10 @@ function Customizer () {
           readFile={readFile}
         />
       case 'aipicker':
-        return <AiPicker 
+        return <AiPicker
           prompt={prompt}
           setPrompt={setPrompt}
-          generatingImg={generaatingImg}
+          generatingImg={generatingImg}
           handleSubmit={handleSubmit}
         />
       default:
@@ -43,11 +43,23 @@ function Customizer () {
     }
   }
 
-  const handleSubmit = async (type) => {
+  const handleSubmit = async (type: string) => {
     if (prompt === '') alert('Please enter a prompt')
 
     try {
-      // backend
+      setGeneraatingImg(true)
+
+      const response = await fetch('http://localhost:8080/api/v1/dalle', {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify({ prompt })
+      })
+
+      const data = await response.json()
+
+      handleDecal(type, `data:image/png;base64,${data.photo}`)
     } catch (error) {
       alert(error)
     } finally {
