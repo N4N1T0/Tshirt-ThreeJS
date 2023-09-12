@@ -1,18 +1,18 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useSnapshot } from 'valtio'
-import config from '../config/config'
 import state from '../store'
 import { download } from '../assets'
 import { downloadCanvasToImage, reader } from '../config/helpers'
 import { EditorTabs, FilterTabs, DecalTypes } from '../config/constants'
 import { fadeAnimation, slideAnimation } from '../config/motion'
 import { ColorPicker, AiPicker, FilePicker, Tab, CustomButton } from '../components'
+import { type TFile } from '../components/FilePicker'
 
 function Customizer () {
   const snap = useSnapshot(state)
 
-  const [file, setFile] = useState('')
+  const [file, setFile] = useState<TFile | undefined>('')
   const [prompt, setPrompt] = useState('')
   const [generatingImg, setGeneraatingImg] = useState(false)
   const [activeEditorTab, setActiveEditorTab] = useState('')
@@ -71,6 +71,7 @@ function Customizer () {
   const handleDecal = (type: string, result: any) => {
     const decalType = DecalTypes[type as keyof typeof DecalTypes]
 
+    // @ts-expect-error: Disable TypeScript checking for this line
     state[decalType.stateProperty as keyof typeof state] = result
 
     if (activeFilterTab[decalType.filterTab as keyof typeof activeFilterTab]) {
@@ -112,6 +113,7 @@ function Customizer () {
     <AnimatePresence>
       {!snap.intro && (
         <>
+          {/* Pickers Tabs */}
           <motion.div
             key='custom'
             className='absolute top-0 left-0 z-10'
@@ -137,8 +139,10 @@ function Customizer () {
               </div>
             </div>
           </motion.div>
+
+          {/* Go Back Button  */}
           <motion.div
-            className='absolute <-10 top-5 right-5'
+            className='absolute z-20 top-5 flex gap-5 right-5'
             {...fadeAnimation}
             >
               <CustomButton
@@ -147,8 +151,18 @@ function Customizer () {
                 handleClick={() => { state.intro = true }}
                 customStyle='w-fit px-4 py-2.5 font-bold text-sm'
               />
-          </motion.div>
 
+              {/* Download button */}
+              <button className='download-btn' onClick={downloadCanvasToImage}>
+                <img
+                  src={download}
+                  alt='download_image'
+                  className='w-3/5 h-3/5 object-contain'
+                />
+              </button>
+            </motion.div>
+
+          {/* Filter Tabs */}
           <motion.div
             className='filtertabs-container'
             {...slideAnimation('up')}

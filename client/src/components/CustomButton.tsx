@@ -5,7 +5,7 @@ import { getContrastingColor } from '../config/helpers'
 interface Props {
   type: string
   title: string
-  customStyle: string
+  customStyle?: string
   handleClick: () => void
 
 }

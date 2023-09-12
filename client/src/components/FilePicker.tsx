@@ -1,19 +1,19 @@
 import { CustomButton } from '.'
 
-interface Props {
-  file: {
-    name: string
-    lastModified: Date
-    lastModifiedDate: Date
-    webkitRelativePath: string
-    size: number
-    type: string
-  } | string
-  setFile: React.Dispatch<React.SetStateAction<File | undefined>>
+export interface FilePickerProps {
+  file: TFile | undefined
+  setFile: React.Dispatch<React.SetStateAction<TFile | undefined>>
   readFile: (type: string) => void
 }
+export type TFile = {
+  name: string
+  lastModified: number
+  webkitRelativePath: string
+  size: number
+  type: string
+} | string
 
-function FilePicker ({ file, setFile, readFile }: Props) {
+function FilePicker ({ file, setFile, readFile }: FilePickerProps) {
   return (
     <div className='filepicker-container'>
       <div className='flex-1 flex flex-col'>
@@ -23,7 +23,7 @@ function FilePicker ({ file, setFile, readFile }: Props) {
           accept='image/'
           onChange={(e) => {
             const selectedFile = e.target.files?.[0]
-            if (selectedFile !== null) {
+            if (selectedFile !== undefined) {
               setFile(selectedFile)
             }
           }}
@@ -33,7 +33,7 @@ function FilePicker ({ file, setFile, readFile }: Props) {
           className='filepicker-label'
         >Upload File</label>
         <p className='mt-2 text-gray-500 text-sm truncate'>
-          {file === '' ? 'No File Selected' : file?.name}
+          {typeof file === 'string' ? 'No File Selected' : file?.name}
         </p>
       </div>
 

@@ -7,7 +7,7 @@ import state from '../store'
 function Shirt () {
   const snap = useSnapshot(state)
   // @ts-expect-error: Disable TypeScript checking for this line
-  const { nodes, materials } = useGLTF('/shirt_baked.glb')
+  const { nodes, materials } = useGLTF('./shirt_baked.glb')
 
   const logoTexture = useTexture(snap.logoDecal)
   const fullTexture = useTexture(snap.fullDecal)
@@ -29,6 +29,8 @@ function Shirt () {
         material-roughness={1}
         // eslint-disable-next-line react/no-unknown-property
         dispose={null}
+        // eslint-disable-next-line react/no-unknown-property
+        rotation={[0, 0, 0]}
       >
         {snap.isFullTexture && (
           <Decal
