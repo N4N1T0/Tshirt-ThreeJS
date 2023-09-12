@@ -6,23 +6,31 @@ import state from '../store'
 
 function Shirt () {
   const snap = useSnapshot(state)
-  const { nodes, materials } = useGLTF('/shirt_baked.glb')
+  // @ts-expect-error: Disable TypeScript checking for this line
+  const { nodes, materials } = useGLTF('./shirt_baked.glb')
 
   const logoTexture = useTexture(snap.logoDecal)
   const fullTexture = useTexture(snap.fullDecal)
 
-  useFrame((state, delta) => easing.dampC(materials.lambert1.color, snap.color, 0.25, delta))
+  useFrame((_state, delta) => easing.dampC(materials.lambert1.color, snap.color, 0.25, delta))
 
   const stateString = JSON.stringify(snap)
 
   return (
     <group key={stateString}>
       <mesh
+        // eslint-disable-next-line react/no-unknown-property
         castShadow
+        // eslint-disable-next-line react/no-unknown-property
         geometry={nodes.T_Shirt_male.geometry}
+        // eslint-disable-next-line react/no-unknown-property
         material={materials.lambert1}
+        // eslint-disable-next-line react/no-unknown-property
         material-roughness={1}
+        // eslint-disable-next-line react/no-unknown-property
         dispose={null}
+        // eslint-disable-next-line react/no-unknown-property
+        rotation={[0, 0, 0]}
       >
         {snap.isFullTexture && (
           <Decal

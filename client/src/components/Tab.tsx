@@ -8,7 +8,7 @@ interface Props {
   }
   isFilterTab?: boolean
   isActiveTab?: boolean
-  handleClick: () => void
+  handleClick?: () => void
 }
 
 function Tab ({ tab, isActiveTab, isFilterTab, handleClick }: Props) {
