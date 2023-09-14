@@ -14,10 +14,8 @@ function Shirt () {
 
   useFrame((_state, delta) => easing.dampC(materials.lambert1.color, snap.color, 0.25, delta))
 
-  const stateString = JSON.stringify(snap)
-
   return (
-    <group key={stateString}>
+    <group>
       <mesh
         // eslint-disable-next-line react/no-unknown-property
         castShadow
@@ -42,13 +40,13 @@ function Shirt () {
         )}
 
         {snap.isLogoTexture && (
-          <Decal
-            position={[0, 0.04, 0.15]}
-            rotation={[0, 0, 0]}
-            scale={0.15}
-            map={logoTexture}
-            depthTest={false}
-          />
+            <Decal
+              position={[0, 0.04, 0.15]}
+              rotation={[0, 0, 0]}
+              scale={0.15}
+              map={logoTexture}
+              depthTest={false}
+            />
         )}
       </mesh>
     </group>

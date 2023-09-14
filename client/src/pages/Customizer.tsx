@@ -6,7 +6,7 @@ import { download } from '../assets'
 import { downloadCanvasToImage, reader } from '../config/helpers'
 import { EditorTabs, FilterTabs, DecalTypes } from '../config/constants'
 import { fadeAnimation, slideAnimation } from '../config/motion'
-import { ColorPicker, AiPicker, FilePicker, Tab, CustomButton } from '../components'
+import { ColorPicker, AiPicker, FilePicker, Tab, CustomButton, BgRemoval } from '../components'
 import { type TFile } from '../components/FilePicker'
 
 function Customizer () {
@@ -37,6 +37,10 @@ function Customizer () {
           setPrompt={setPrompt}
           generatingImg={generatingImg}
           handleSubmit={handleSubmit}
+        />
+      case 'bg-removal':
+        return <BgRemoval
+          file={file}
         />
       default:
         return null
