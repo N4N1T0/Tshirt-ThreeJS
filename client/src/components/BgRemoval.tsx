@@ -10,6 +10,8 @@ interface BgRemovalProps {
 function BgRemoval ({ file }: BgRemovalProps) {
   const snap = useSnapshot(state)
 
+  console.log(snap.logoDecal)
+
   const handleBgRemoval = async () => {
     const url = 'https://background-removal.p.rapidapi.com/remove'
     const options = {
@@ -20,7 +22,7 @@ function BgRemoval ({ file }: BgRemovalProps) {
         'X-RapidAPI-Host': 'background-removal.p.rapidapi.com'
       },
       body: new URLSearchParams({
-        image_url: snap.logoDecal
+        image_base64: snap.logoDecal
       })
     }
 
